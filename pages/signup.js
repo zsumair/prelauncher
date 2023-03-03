@@ -1,12 +1,71 @@
 import Layout from "@/components/ui/layout/Layout";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
 function Signup() {
+  let initialState = {
+    name: "",
+    email: "",
+    password: "",
+  };
+
+  const supabase = useSupabaseClient();
+  const [state, setState] = useState(initialState);
+  const [error, setErrorMessage] = useState(null);
+  const [success, setSuccessMessage] = useState(null);
+  const router = useRouter();
+
+  const handleInput = (e) => {
+    const value = e.target.value;
+    setState({
+      ...state,
+      [e.target.name]: value,
+    });
+  };
+
+  async function loginWithGoogle(e) {
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+    });
+  }
+
+  async function handleSignUp(e) {
+    e.preventDefault();
+    const { name, email, password } = state;
+    const { data, error } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+      options: {
+        data: {
+          full_name: name,
+        },
+      },
+    });
+    if (error) {
+      return setErrorMessage(error.message);
+    } else {
+      if (data?.user?.identities?.length === 0) {
+        setErrorMessage("User with email already exists");
+      } else {
+        setSuccessMessage(
+          "Please confirm signup by clicking the link sent to your email "
+        );
+        setState(initialState);
+      }
+    }
+  }
+
   return (
     <Layout>
       <div className="py-12 md:py-24">
         <div className="card bg-base-300 shadow-sm shadow-gray-300 max-w-xl mx-auto mb-8 md:mb-12">
           <div className="card-body">
-            <button className="btn btn-block bg-white text-black hover:bg-gray-100 hover:text-black !border-base-content/20 ">
+            <button
+              onClick={loginWithGoogle}
+              className="btn btn-block bg-white text-black hover:bg-gray-100 hover:text-black !border-base-content/20 "
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="w-5 h-5 mr-4"
@@ -30,7 +89,7 @@ function Signup() {
                 ></path>
                 <path d="M1 1h22v22H1z" fill="none"></path>
               </svg>{" "}
-              Sign in with Google
+              Sign up with Google
             </button>
             <div className="divider">OR</div>
 
@@ -40,6 +99,8 @@ function Signup() {
                   <span className="label-text">Name</span>
                 </label>
                 <input
+                  onChange={handleInput}
+                  value={state.name}
                   type="text"
                   name="name"
                   placeholder="Please enter your name"
@@ -61,6 +122,8 @@ function Signup() {
                 <input
                   type="email"
                   name="email"
+                  onChange={handleInput}
+                  value={state.email}
                   placeholder="this@test.com"
                   className="input input-bordered input-error w-full "
                   required
@@ -78,6 +141,8 @@ function Signup() {
                 <input
                   type="password"
                   name="password"
+                  onChange={handleInput}
+                  value={state.password}
                   placeholder="Enter password"
                   className="input input-bordered input-error w-full "
                   required
@@ -88,7 +153,7 @@ function Signup() {
               </div>
 
               <div className="form-control pt-4">
-                <button className="btn gap-2">
+                <button className="btn gap-2" onClick={handleSignUp}>
                   Signup
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -107,12 +172,19 @@ function Signup() {
                 </button>
               </div>
             </form>
+            {success ? (
+              <div className="text-center mt-2 mb-2">
+                <span className="text-lg text-indigo-500">{success}</span>
+              </div>
+            ) : (
+              ""
+            )}
             <div className="text-center mt-2">
               <span>
                 Already have an account?{" "}
-                <a href="/login" className="link">
+                <Link href="/login" className="link">
                   Login
-                </a>
+                </Link>
               </span>
             </div>
           </div>

@@ -1,13 +1,19 @@
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import React from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 function Navbar() {
   const supabase = useSupabaseClient();
   const session = useSession();
+  const router = useRouter();
 
   async function logoutFromAccount() {
     await supabase.auth.signOut();
+  }
+
+  function goToLogin() {
+    router.push("/login");
   }
 
   return (
@@ -80,12 +86,12 @@ function Navbar() {
           </div>
         ) : (
           <div className="navbar-end">
-            <a
-              href="/login"
+            <button
+              onClick={goToLogin}
               className="btn btn-xs sm:btn-sm md:btn-md lg:btn-md"
             >
               Get started
-            </a>
+            </button>
           </div>
         )}
       </div>

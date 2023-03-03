@@ -1,5 +1,6 @@
 import Layout from "@/components/ui/layout/Layout";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import Link from "next/link";
 
 function Login() {
   const supabase = useSupabaseClient();
@@ -102,9 +103,9 @@ function Login() {
             <div className="text-center mt-2">
               <span>
                 Don't have an account yet?{" "}
-                <a href="/signup" className="link">
+                <Link href="/signup" className="link">
                   Signup
-                </a>
+                </Link>
               </span>
             </div>
           </div>

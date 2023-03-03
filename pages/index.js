@@ -7,18 +7,36 @@ import ProductCard from "@/components/ProductCard";
 import Footer from "@/components/ui/Footer/Footer";
 import Layout from "@/components/ui/layout/Layout";
 import SlickHero from "@/components/ui/Hero/SlickHero";
-import { useSession } from "@supabase/auth-helpers-react";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import Login from "./login";
+import { UserContext } from "@/contexts/UserContext";
+import { useState, useEffect } from "react";
+import { create } from "zustand";
 // import styles from '@/styles/Home.module.css'
 
 export default function Home() {
+  const supabase = useSupabaseClient();
   const session = useSession();
+  const [profile, setProfile] = useState(null);
 
-  // console.log("session", session);
+  useEffect(() => {
+    if (!session?.user?.id) return;
+    fetchUser();
+  }, [session?.user?.id]);
 
-  if (!session) {
-    return <Login />;
+  async function fetchUser() {
+    await supabase
+      .from("profiles")
+      .select()
+      .eq("id", session?.user?.id)
+      .then((res) => {
+        setProfile(res.data[0]);
+      });
   }
+
+  // if (!session) {
+  //   return <Login />;
+  // }
 
   return (
     <>
@@ -29,8 +47,10 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        {/* <SlickHero /> */}
-        <ProductCard />
+        <UserContext.Provider value={{ profile }}>
+          {/* <SlickHero /> */}
+          <ProductCard />
+        </UserContext.Provider>
       </Layout>
     </>
   );

@@ -1,3 +1,19 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Quattrocento+Sans&display=swap'); */
+/* @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Poppins:wght@400;500;600&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Barlow+Condensed:wght@400;500;600&family=Montserrat:wght@400;500&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+h1,h2,h3,h4,h5,h6{
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.12rem;
+}
+
+body,p,span{
+    /* font-family: 'Open Sans', sans-serif; */
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+}

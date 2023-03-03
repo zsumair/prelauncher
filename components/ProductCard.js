@@ -1,7 +1,20 @@
-import React from "react";
+import { UserContext } from "@/contexts/UserContext";
+import Login from "@/pages/login";
+import { useRouter } from "next/router";
+import React, { useContext } from "react";
 import Skeleton from "./ui/Skeleton/Skeleton";
 
 function ProductCard() {
+  const { profile } = useContext(UserContext);
+  const router = useRouter();
+
+  async function toggleVote() {
+    if (!profile) {
+      return router.push("/login");
+    }
+    console.log(profile);
+  }
+
   return (
     <>
       <section className="py-10 md:py-16">
@@ -26,7 +39,7 @@ function ProductCard() {
               </figure>
               <div className="card-body">
                 <h2 className="card-title">
-                  Shoes!
+                  Shoes! check
                   {/* <div className="badge badge-secondary">NEW</div> */}
                 </h2>
                 <p>
@@ -40,7 +53,7 @@ function ProductCard() {
                       <span className="indicator-item badge badge-secondary">
                         0
                       </span>
-                      <button className="btn gap-2">
+                      <button onClick={toggleVote} className="btn gap-2">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           className="h-6 w-6"
@@ -61,7 +74,9 @@ function ProductCard() {
                   </div>
                   <div className="card-actions md:justify-end md:py-0 py-4">
                     {/* <div className="badge badge-outline">Fashion</div> */}
-                    <div className="badge badge-outline">Health & Fitness</div>
+                    <div className="badge badge-sm badge-outline">
+                      Health & Fitness
+                    </div>
                   </div>
                 </div>
               </div>

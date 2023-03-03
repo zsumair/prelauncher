@@ -1,14 +1,57 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Layout from "@/components/ui/layout/Layout";
 import Image from "next/image";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 
 function SubmitApp() {
+  let initialState = {
+    productName: "",
+    productURL: "",
+    productDesc: "",
+  };
+
   const [productImage, setProductImage] = useState(null);
+  const [state, setState] = useState(initialState);
+  const [productCategory, setProductCategory] = useState("");
+  const supabase = useSupabaseClient();
+  const session = useSession();
+
+  const handleCategory = (e) => {
+    setProductCategory(e.target.value);
+  };
+
+  const handleInput = (e) => {
+    const value = e.target.value;
+    setState({
+      ...state,
+      [e.target.name]: value,
+    });
+  };
 
   const handleImagePreview = (e) => {
     console.log(e.target.files);
 
     setProductImage(URL.createObjectURL(e.target.files[0]));
+  };
+
+  const handleSubmitProduct = async (e) => {
+    e.preventDefault();
+    const { productName, productURL, productDesc } = state;
+    supabase
+      .from("products")
+      .insert({
+        product_name: productName,
+        product_url: productURL,
+        product_desc: productDesc,
+        category: productCategory,
+        maker: session.user.id,
+      })
+      .then((res) => {
+        console.log("created", res);
+        setState(initialState);
+        setProductCategory("");
+        setProductImage(null);
+      });
   };
 
   return (
@@ -25,7 +68,9 @@ function SubmitApp() {
                 </label>
                 <input
                   type="text"
-                  name="productname"
+                  name="productName"
+                  onChange={handleInput}
+                  value={state.productName}
                   placeholder="Product Name"
                   className="input input-bordered input-error w-full "
                   required
@@ -36,13 +81,36 @@ function SubmitApp() {
                   </span>
                 </label>
               </div>
+
+              <div className="form-control mb-2">
+                <label className="label">
+                  <span className="label-text">Product Category</span>
+                </label>
+                <select
+                  onChange={handleCategory}
+                  className="select select-bordered"
+                >
+                  <option disabled defaultValue={"Pick one"}>
+                    Pick one
+                  </option>
+                  <option value="Health & Fitness">Health & Fitness</option>
+                  <option value="SaaS">SaaS</option>
+                  <option value="Productivity">Productivity</option>
+                  <option value="Developer Tools">Developer Tools</option>
+                  <option value="Social Media">Social Media</option>
+                  <option value="Sales & Marketing">Sales & Marketing</option>
+                </select>
+              </div>
+
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Product URL</span>
                 </label>
                 <input
                   type="url"
-                  name="url"
+                  name="productURL"
+                  onChange={handleInput}
+                  value={state.productURL}
                   placeholder="Enter Url"
                   className="input input-bordered input-error w-full "
                   required
@@ -76,23 +144,19 @@ function SubmitApp() {
                 </label>
                 <textarea
                   placeholder="Enter Product Description"
-                  name="description"
+                  name="productDesc"
+                  onChange={handleInput}
+                  value={state.productDesc}
                   className="textarea textarea-bordered textarea-error textarea-md w-full"
                 ></textarea>
-                {/* <input
-                  type="text"
-                  name="description"
-                  placeholder="Enter Product Description"
-                  className="input input-bordered input-error w-full "
-                  required
-                /> */}
+
                 <label className="label">
                   <span className="label-text-alt">This field is required</span>
                 </label>
               </div>
 
               <div className="form-control pt-4">
-                <button className="btn gap-2">
+                <button className="btn gap-2" onClick={handleSubmitProduct}>
                   Submit Product
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -114,7 +178,7 @@ function SubmitApp() {
           </div>
           <div className="divider divider-horizontal"></div>
           <div className="md:w-1/2">
-            <h2 className="pb-4 text-center text-lg font-bold">
+            <h2 className="pb-4 text-center text-lg font-bold mb-5">
               This is how your product / app will appear
             </h2>
             <div className="card bg-base-100">
@@ -130,15 +194,22 @@ function SubmitApp() {
                 />
               </figure>
               <div className="card-body">
-                <h2 className="card-title">
-                  Shoes!
-                  {/* <div className="badge badge-secondary">NEW</div> */}
-                </h2>
-                <p>
-                  If a dog chews shoes whose shoes does he choose? If a dog
-                  chews shoes whose shoes does he choose? If a dog chews shoes
-                  whose shoes does he choose?
-                </p>
+                {state.productName ? (
+                  <h2 className="card-title">{state.productName} </h2>
+                ) : (
+                  <h2 className="card-title">Product Title</h2>
+                )}
+
+                {state.productDesc ? (
+                  <p>{state.productDesc}</p>
+                ) : (
+                  <p>
+                    "If a dog chews shoes whose shoes does he choose? If a dog
+                    chews shoes whose shoes does he choose? If a dog chews shoes
+                    whose shoes does he choose?"
+                  </p>
+                )}
+
                 <div className="md:flex justify-between gap-2 items-center mt-2 py-2">
                   <div className="card-actions justify-start">
                     <div className="indicator">
@@ -166,7 +237,9 @@ function SubmitApp() {
                   </div>
                   <div className="card-actions md:justify-end md:py-0 py-4">
                     {/* <div className="badge badge-outline">Fashion</div> */}
-                    <div className="badge badge-outline">Health & Fitness</div>
+                    <div className="badge badge-outline">
+                      {productCategory ? productCategory : "Health & Fitness"}
+                    </div>
                   </div>
                 </div>
               </div>
