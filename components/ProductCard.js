@@ -3,7 +3,8 @@ import Login from "@/pages/login";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import Skeleton from "./ui/Skeleton/Skeleton";
 
 function ProductCard({ product }) {
   const { profile } = useContext(UserContext);
@@ -24,6 +25,10 @@ function ProductCard({ product }) {
   }
 
   const isVotedByMe = !!votes?.find((vote) => vote?.user_id === profile?.id);
+
+  const cleanSlug = (slug) => {
+    return slug.replace(/\s+/g, "-").toLowerCase();
+  };
 
   async function toggleVote() {
     if (!profile) {
@@ -101,10 +106,12 @@ function ProductCard({ product }) {
               </div>
             </div>
             <div className="card-actions md:justify-end md:py-0 py-4">
-              {/* <div className="badge badge-outline">Fashion</div> */}
-              <div className="badge badge-sm badge-outline">
+              <Link
+                href={"/category/" + product?.category}
+                className="badge badge-sm badge-outline"
+              >
                 {product?.category}
-              </div>
+              </Link>
             </div>
           </div>
 
@@ -112,7 +119,7 @@ function ProductCard({ product }) {
 
           <div className="mx-auto md:mx-0 md:flex justify-between gap-2 items-center py-2 ">
             <div className="card-actions justify-start">
-              <span className="text-sm">by : {profile?.name}</span>
+              <span className="text-sm">by : {product?.profiles?.name}</span>
             </div>
             <div className="card-actions md:justify-end md:py-0 py-4">
               {/* <div className="badge badge-outline">Fashion</div> */}

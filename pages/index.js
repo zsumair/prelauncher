@@ -41,9 +41,6 @@ export default function Home({ data, count, page }) {
   const [products, setProducts] = useState([]);
   const [postsPerPage, setPostsPerPage] = useState(9);
 
-  // console.log("data", data);
-  // console.log("count", count);
-
   const lastPostIndex = postsPerPage;
   const firstPostIndex = lastPostIndex - postsPerPage;
   const currentPosts = data?.slice(firstPostIndex, lastPostIndex);
@@ -51,20 +48,8 @@ export default function Home({ data, count, page }) {
   useEffect(() => {
     if (!session?.user?.id) return;
     fetchUser();
-    fetchProducts();
+    // fetchProducts();
   }, [session?.user?.id]);
-
-  async function fetchProducts() {
-    await supabase
-      .from("products")
-      .select("*,profiles(id, name, avatar)", { count: "exact" })
-      .is("approved", false)
-      .then((res) => {
-        setTotalSize(res?.count);
-        setProducts(res?.data);
-        console.log("res products", res);
-      });
-  }
 
   async function fetchUser() {
     await supabase
