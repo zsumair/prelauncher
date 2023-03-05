@@ -15,7 +15,7 @@ function Products({ children }) {
   const [profile, setProfile] = useState(null);
   const [totalSize, setTotalSize] = useState(null);
   const [products, setProducts] = useState([]);
-  const [categoryValue, setCategoryValue] = useState("");
+  const [loading, setIsLoading] = useState(false);
   const [postsPerPage, setPostsPerPage] = useState(9);
 
   const category = router?.query?.category;
@@ -33,6 +33,8 @@ function Products({ children }) {
   }, [category]);
 
   async function getFilteredCategory() {
+    setProducts([]);
+    setIsLoading(true);
     await supabase
       .from("products")
       .select("*,profiles(id, name, avatar)", { count: "exact" })
@@ -41,10 +43,13 @@ function Products({ children }) {
       .then((res) => {
         setTotalSize(res?.count);
         setProducts(res?.data);
+        setIsLoading(false);
       });
   }
 
   async function fetchProducts() {
+    setProducts([]);
+    setIsLoading(true);
     await supabase
       .from("products")
       .select("*,profiles(id, name, avatar)", { count: "exact" })
@@ -52,6 +57,7 @@ function Products({ children }) {
       .then((res) => {
         setTotalSize(res?.count);
         setProducts(res?.data);
+        setIsLoading(false);
         // console.log("res products", res);
       });
   }
@@ -72,6 +78,7 @@ function Products({ children }) {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 lg:gap-8 xl:gap-10">
+            {loading && <Skeleton cards={6} />}
             {currentPosts &&
               currentPosts?.map((product) => (
                 <ProductCard key={product?.id} product={product} />
