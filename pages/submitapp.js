@@ -1,7 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import Layout from "@/components/ui/layout/Layout";
 import Image from "next/image";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 function SubmitApp() {
   let initialState = {
@@ -10,11 +13,23 @@ function SubmitApp() {
     productDesc: "",
   };
 
-  const [productImage, setProductImage] = useState(null);
   const [state, setState] = useState(initialState);
   const [productCategory, setProductCategory] = useState("");
+  const [error, setErrorMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [productImage, setProductImage] = useState(null);
+  const [imageSubmitted, setImageSubmitted] = useState(false);
+  const [imageURL, setImageURL] = useState(null);
+  const fileInputRef = useRef();
   const supabase = useSupabaseClient();
   const session = useSession();
+  const router = useRouter();
+
+  // useEffect(() => {
+  //   if (!session?.user?.id) {
+  //     router.push("/login");
+  //   }
+  // }, [session?.user?.id]);
 
   const handleCategory = (e) => {
     setProductCategory(e.target.value);
@@ -28,30 +43,71 @@ function SubmitApp() {
     });
   };
 
-  const handleImagePreview = (e) => {
-    console.log(e.target.files);
+  // console.log("session", session?.user?.user_metadata?.full_name);
 
-    setProductImage(URL.createObjectURL(e.target.files[0]));
+  const handleImagePreview = (e) => {
+    setErrorMessage(null);
+    let file = e.target.files[0];
+    setProductImage(URL.createObjectURL(file));
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", "prelauncher_images");
+    fetch("https://api.cloudinary.com/v1_1/syedzoheb/image/upload", {
+      method: "post",
+      body: data,
+    })
+      .then((resp) => resp.json())
+      .then((data) => {
+        setImageURL(data?.secure_url);
+        setImageSubmitted(true);
+        // e.target.value = null;
+      })
+      .catch((err) => {
+        console.log(err);
+        setErrorMessage("Error: Image is not uploaded, try again");
+        setImageSubmitted(false);
+      });
   };
 
   const handleSubmitProduct = async (e) => {
     e.preventDefault();
-    const { productName, productURL, productDesc } = state;
-    supabase
-      .from("products")
-      .insert({
-        product_name: productName,
-        product_url: productURL,
-        product_desc: productDesc,
-        category: productCategory,
-        maker: session.user.id,
-      })
-      .then((res) => {
-        console.log("created", res);
-        setState(initialState);
-        setProductCategory("");
-        setProductImage(null);
-      });
+    setErrorMessage(null);
+    try {
+      const { productName, productURL, productDesc } = state;
+      if (imageSubmitted) {
+        supabase
+          .from("products")
+          .insert({
+            product_name: productName,
+            product_url: productURL,
+            product_desc: productDesc,
+            category: productCategory,
+            product_image: imageURL,
+            maker: session.user.id,
+          })
+          .then((res) => {
+            toast.success("🎉 🎉 Product is submitted for review", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+            setState(initialState);
+            setProductCategory("");
+            setProductImage(null);
+            setImageSubmitted(false);
+            setImageURL(null);
+            fileInputRef.current.value = null;
+          });
+      }
+    } catch (error) {
+      setErrorMessage("Product is not submitted, try again");
+      console.log(error);
+    }
   };
 
   return (
@@ -61,7 +117,7 @@ function SubmitApp() {
           <div className="card-body">
             <h2>Please submit your app details below</h2>
 
-            <form action="#">
+            <form onSubmit={handleSubmitProduct}>
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Product Name</span>
@@ -129,7 +185,9 @@ function SubmitApp() {
                   type="file"
                   name="productimage"
                   accept="image/*"
+                  ref={fileInputRef}
                   onChange={handleImagePreview}
+                  // onChange={handleImagePreview}
                   className="file-input file-input-bordered input-error w-full "
                   required
                 />
@@ -141,13 +199,15 @@ function SubmitApp() {
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Product Description</span>
+                  <span className="label-text-alt">max: 80 chars</span>
                 </label>
                 <textarea
-                  placeholder="Enter Product Description"
+                  placeholder="Describe product in 80 chars"
                   name="productDesc"
                   onChange={handleInput}
                   value={state.productDesc}
-                  className="textarea textarea-bordered textarea-error textarea-md w-full"
+                  maxLength="80"
+                  className="textarea textarea-bordered leading-tight textarea-error textarea-md w-full"
                 ></textarea>
 
                 <label className="label">
@@ -156,7 +216,7 @@ function SubmitApp() {
               </div>
 
               <div className="form-control pt-4">
-                <button className="btn gap-2" onClick={handleSubmitProduct}>
+                <button className="btn gap-2">
                   Submit Product
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -195,53 +255,90 @@ function SubmitApp() {
               </figure>
               <div className="card-body">
                 {state.productName ? (
-                  <h2 className="card-title">{state.productName} </h2>
+                  <h2 className="card-title text-lg">{state.productName} </h2>
                 ) : (
-                  <h2 className="card-title">Product Title</h2>
+                  <h2 className="card-title text-lg">Product Title</h2>
                 )}
 
                 {state.productDesc ? (
-                  <p>{state.productDesc}</p>
+                  <p className="pb-2 text-sm">{state.productDesc}</p>
                 ) : (
-                  <p>
+                  <p className="pb-2 text-sm">
                     "If a dog chews shoes whose shoes does he choose? If a dog
                     chews shoes whose shoes does he choose? If a dog chews shoes
                     whose shoes does he choose?"
                   </p>
                 )}
 
-                <div className="md:flex justify-between gap-2 items-center mt-2 py-2">
+                <div className="mx-auto md:mx-0 md:flex justify-between gap-2 items-center py-2">
                   <div className="card-actions justify-start">
                     <div className="indicator">
                       <span className="indicator-item badge badge-secondary">
                         0
                       </span>
-                      <button className="btn gap-2">
+                      <button className={"btn btn-square btn-outline "}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          className="h-6 w-6"
                           fill="none"
                           viewBox="0 0 24 24"
-                          stroke="currentColor"
+                          className={
+                            "inline-block w-8 h-8 stroke-current fill-yellow-500 "
+                          }
                         >
                           <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             strokeWidth="2"
-                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                          />
+                            d="M13 10V3L4 14h7v7l9-11h-7z"
+                          ></path>
                         </svg>
-                        Button
                       </button>
                     </div>
                   </div>
                   <div className="card-actions md:justify-end md:py-0 py-4">
                     {/* <div className="badge badge-outline">Fashion</div> */}
-                    <div className="badge badge-outline">
+                    <div className="badge badge-sm badge-outline">
                       {productCategory ? productCategory : "Health & Fitness"}
                     </div>
                   </div>
                 </div>
+
+                {/* Maker and URL */}
+
+                <div className="mx-auto md:mx-0 md:flex justify-between gap-2 items-center py-2 ">
+                  <div className="card-actions justify-start">
+                    <span className="text-sm">
+                      by : {session?.user?.user_metadata?.full_name}
+                    </span>
+                  </div>
+                  <div className="card-actions md:justify-end md:py-0 py-4">
+                    {/* <div className="badge badge-outline">Fashion</div> */}
+                    <div>
+                      <Link
+                        href={state.productURL ? state.productURL : "#"}
+                        className="btn btn-square btn-sm btn-outline"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="w-6 h-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+                          />
+                        </svg>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+                {/* Maker and URL */}
               </div>
             </div>
           </div>

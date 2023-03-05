@@ -2,25 +2,35 @@ import Layout from "@/components/ui/layout/Layout";
 import { UserContext } from "@/contexts/UserContext";
 import { useEffect, useState } from "react";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useRouter } from "next/router";
 
 function Profile() {
   const supabase = useSupabaseClient();
   const session = useSession();
+  const router = useRouter("/login");
   const [profile, setProfile] = useState(null);
 
   useEffect(() => {
-    if (!session?.user?.id) return;
+    // if (!session?.user?.id) {
+    //   router.push("/login");
+    // }
     fetchUser();
   }, [session?.user?.id]);
 
   async function fetchUser() {
-    await supabase
-      .from("profiles")
-      .select()
-      .eq("id", session?.user?.id)
-      .then((res) => {
-        setProfile(res.data[0]);
-      });
+    try {
+      if (session) {
+        await supabase
+          .from("profiles")
+          .select()
+          .eq("id", session?.user?.id)
+          .then((res) => {
+            setProfile(res?.data[0]);
+          });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (

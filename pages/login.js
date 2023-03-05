@@ -1,13 +1,57 @@
 import Layout from "@/components/ui/layout/Layout";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
 function Login() {
+  let initialState = {
+    email: "",
+    password: "",
+  };
+
   const supabase = useSupabaseClient();
+  const router = useRouter();
+  const [state, setState] = useState(initialState);
+  const [error, setErrorMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleInput = (e) => {
+    const value = e.target.value;
+    setState({
+      ...state,
+      [e.target.name]: value,
+    });
+  };
+
   async function loginWithGoogle(e) {
     await supabase.auth.signInWithOAuth({
       provider: "google",
     });
+  }
+
+  async function loginWithEmail(e) {
+    e.preventDefault();
+    setErrorMessage(null);
+    setLoading(true);
+    const { email, password } = state;
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    });
+    if (error) {
+      console.log("user login error", error);
+      setLoading(false);
+      setErrorMessage(error.message);
+      return;
+    } else {
+      if (data?.user?.id) {
+        router.push("/");
+        setState(initialState);
+        setLoading(false);
+        setErrorMessage(null);
+      }
+    }
   }
 
   return (
@@ -46,7 +90,7 @@ function Login() {
             </button>
             <div className="divider">OR</div>
 
-            <form action="#">
+            <form onSubmit={loginWithEmail}>
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Email</span>
@@ -54,6 +98,8 @@ function Login() {
                 <input
                   type="email"
                   name="email"
+                  onChange={handleInput}
+                  value={state.email}
                   placeholder="this@test.com"
                   className="input input-bordered input-error w-full "
                   required
@@ -71,6 +117,8 @@ function Login() {
                 <input
                   type="password"
                   name="password"
+                  onChange={handleInput}
+                  value={state.password}
                   placeholder="Enter password"
                   className="input input-bordered input-error w-full "
                   required
@@ -81,7 +129,7 @@ function Login() {
               </div>
 
               <div className="form-control pt-4">
-                <button className="btn gap-2">
+                <button className={`btn gap-2 ${loading ? "loading" : ""}`}>
                   Login
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -100,6 +148,36 @@ function Login() {
                 </button>
               </div>
             </form>
+            {/* Error show */}
+            {error && (
+              <div className="alert alert-error shadow-lg">
+                <div>
+                  <span className="text-white">{error}</span>
+                </div>
+                <div className="flex-none">
+                  <button
+                    className="btn btn-sm btn-circle btn-outline"
+                    onClick={() => setErrorMessage(null)}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            )}
+            {/* Error show en */}
             <div className="text-center mt-2">
               <span>
                 Don't have an account yet?{" "}

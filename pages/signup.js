@@ -14,7 +14,7 @@ function Signup() {
   const supabase = useSupabaseClient();
   const [state, setState] = useState(initialState);
   const [error, setErrorMessage] = useState(null);
-  const [success, setSuccessMessage] = useState(null);
+  const [success, setSuccessMessage] = useState(false);
   const router = useRouter();
 
   const handleInput = (e) => {
@@ -33,27 +33,31 @@ function Signup() {
 
   async function handleSignUp(e) {
     e.preventDefault();
-    const { name, email, password } = state;
-    const { data, error } = await supabase.auth.signUp({
-      email: email,
-      password: password,
-      options: {
-        data: {
-          full_name: name,
+    try {
+      const { name, email, password } = state;
+      const { data, error } = await supabase.auth.signUp({
+        email: email,
+        password: password,
+        options: {
+          data: {
+            full_name: name,
+          },
         },
-      },
-    });
-    if (error) {
-      return setErrorMessage(error.message);
-    } else {
-      if (data?.user?.identities?.length === 0) {
-        setErrorMessage("User with email already exists");
+      });
+      if (error) {
+        setErrorMessage("Oops, looks like an issue with signup");
+        return;
       } else {
-        setSuccessMessage(
-          "Please confirm signup by clicking the link sent to your email "
-        );
-        setState(initialState);
+        if (data?.user?.identities?.length === 0) {
+          setErrorMessage("User with email already exists");
+        } else {
+          setSuccessMessage(true);
+          setState(initialState);
+        }
       }
+    } catch (error) {
+      setErrorMessage("Oops, looks like an issue with signup");
+      return;
     }
   }
 
@@ -93,7 +97,7 @@ function Signup() {
             </button>
             <div className="divider">OR</div>
 
-            <form action="#">
+            <form onSubmit={handleSignUp}>
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Name</span>
@@ -153,7 +157,7 @@ function Signup() {
               </div>
 
               <div className="form-control pt-4">
-                <button className="btn gap-2" onClick={handleSignUp}>
+                <button className="btn gap-2">
                   Signup
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -172,13 +176,60 @@ function Signup() {
                 </button>
               </div>
             </form>
-            {success ? (
-              <div className="text-center mt-2 mb-2">
-                <span className="text-lg text-indigo-500">{success}</span>
+            {success && (
+              <div className="alert alert-success shadow-lg">
+                <div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="stroke-current flex-shrink-0 h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  <span>
+                    Please confirm signup by clicking the link sent to your
+                    email and login
+                  </span>
+                </div>
               </div>
-            ) : (
-              ""
             )}
+
+            {/* Error show */}
+            {error && (
+              <div className="alert alert-error shadow-lg">
+                <div>
+                  <span className="text-white">{error}</span>
+                </div>
+                <div className="flex-none">
+                  <button
+                    className="btn btn-sm btn-circle btn-outline"
+                    onClick={() => setErrorMessage(null)}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            )}
+            {/* Error show en */}
             <div className="text-center mt-2">
               <span>
                 Already have an account?{" "}

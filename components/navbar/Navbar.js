@@ -10,6 +10,7 @@ function Navbar() {
 
   async function logoutFromAccount() {
     await supabase.auth.signOut();
+    router.push("/");
   }
 
   function goToLogin() {
