@@ -15,6 +15,7 @@ function Signup() {
   const [state, setState] = useState(initialState);
   const [error, setErrorMessage] = useState(null);
   const [success, setSuccessMessage] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleInput = (e) => {
@@ -33,6 +34,7 @@ function Signup() {
 
   async function handleSignUp(e) {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const { name, email, password } = state;
       const { data, error } = await supabase.auth.signUp({
@@ -46,17 +48,23 @@ function Signup() {
       });
       if (error) {
         setErrorMessage("Oops, looks like an issue with signup");
+        setIsLoading(false);
+        setState(initialState);
         return;
       } else {
         if (data?.user?.identities?.length === 0) {
           setErrorMessage("User with email already exists");
+          setState(initialState);
+          setIsLoading(false);
         } else {
           setSuccessMessage(true);
+          setIsLoading(false);
           setState(initialState);
         }
       }
     } catch (error) {
       setErrorMessage("Oops, looks like an issue with signup");
+      setIsLoading(false);
       return;
     }
   }
@@ -157,7 +165,12 @@ function Signup() {
               </div>
 
               <div className="form-control pt-4">
-                <button className="btn gap-2 dark:bg-zinc-100 dark:hover:bg-zinc-100 dark:text-black">
+                <button
+                  className={
+                    "btn gap-2 dark:bg-zinc-100 dark:hover:bg-zinc-100 dark:text-black " +
+                    (isLoading ? "loading" : "")
+                  }
+                >
                   Signup
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -181,7 +194,7 @@ function Signup() {
                 <div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="stroke-current flex-shrink-0 h-6 w-6"
+                    className="stroke-current flex-shrink-0 h-6 w-6 text-black"
                     fill="none"
                     viewBox="0 0 24 24"
                   >
@@ -192,7 +205,7 @@ function Signup() {
                       d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
                   </svg>
-                  <span>
+                  <span className="text-black">
                     Please confirm signup by clicking the link sent to your
                     email and login
                   </span>
