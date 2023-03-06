@@ -10,7 +10,10 @@ function Navbar() {
 
   async function logoutFromAccount() {
     await supabase.auth.signOut();
-    router.push("/");
+    router.push({
+      pathname: router.pathname, // not router.asPath
+      query: { confirm: true },
+    });
   }
 
   function goToLogin() {
