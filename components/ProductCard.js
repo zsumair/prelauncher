@@ -5,12 +5,16 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import Skeleton from "./ui/Skeleton/Skeleton";
+import useSound from "use-sound";
 
 function ProductCard({ product }) {
   const { profile } = useContext(UserContext);
   const router = useRouter();
   const supabase = useSupabaseClient();
   const [votes, setVotes] = useState([]);
+  const [playVoteSound] = useSound("/sounds/votesound.mp3", {
+    volume: 0.7,
+  });
 
   useEffect(() => {
     fetchVotes();
@@ -35,6 +39,7 @@ function ProductCard({ product }) {
       return router.push("/login");
     }
     if (isVotedByMe) {
+      playVoteSound();
       supabase
         .from("votes")
         .delete()
@@ -45,6 +50,7 @@ function ProductCard({ product }) {
         });
       return;
     }
+    playVoteSound();
     await supabase
       .from("votes")
       .insert({
