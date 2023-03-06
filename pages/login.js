@@ -101,7 +101,7 @@ function Login() {
                   onChange={handleInput}
                   value={state.email}
                   placeholder="this@test.com"
-                  className="input input-bordered input-error w-full "
+                  className="input input-bordered w-full "
                   required
                 />
                 <label className="label">
@@ -120,7 +120,7 @@ function Login() {
                   onChange={handleInput}
                   value={state.password}
                   placeholder="Enter password"
-                  className="input input-bordered input-error w-full "
+                  className="input input-bordered w-full "
                   required
                 />
                 <label className="label">

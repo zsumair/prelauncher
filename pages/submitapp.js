@@ -128,7 +128,7 @@ function SubmitApp() {
                   onChange={handleInput}
                   value={state.productName}
                   placeholder="Product Name"
-                  className="input input-bordered input-error w-full "
+                  className="input input-bordered w-full "
                   required
                 />
                 <label className="label">
@@ -168,7 +168,7 @@ function SubmitApp() {
                   onChange={handleInput}
                   value={state.productURL}
                   placeholder="Enter Url"
-                  className="input input-bordered input-error w-full "
+                  className="input input-bordered w-full "
                   required
                 />
                 <label className="label">
@@ -188,7 +188,7 @@ function SubmitApp() {
                   ref={fileInputRef}
                   onChange={handleImagePreview}
                   // onChange={handleImagePreview}
-                  className="file-input file-input-bordered input-error w-full "
+                  className="file-input file-input-bordered w-full "
                   required
                 />
                 <label className="label">
@@ -207,7 +207,7 @@ function SubmitApp() {
                   onChange={handleInput}
                   value={state.productDesc}
                   maxLength="80"
-                  className="textarea textarea-bordered leading-tight textarea-error textarea-md w-full"
+                  className="textarea textarea-bordered leading-tight textarea-md w-full"
                 ></textarea>
 
                 <label className="label">

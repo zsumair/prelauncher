@@ -108,7 +108,7 @@ function Signup() {
                   type="text"
                   name="name"
                   placeholder="Please enter your name"
-                  className="input input-bordered input-error w-full"
+                  className="input input-bordered w-full"
                   minLength="2"
                   maxLength="20"
                   required
@@ -129,7 +129,7 @@ function Signup() {
                   onChange={handleInput}
                   value={state.email}
                   placeholder="this@test.com"
-                  className="input input-bordered input-error w-full "
+                  className="input input-bordered w-full "
                   required
                 />
                 <label className="label">
@@ -148,7 +148,7 @@ function Signup() {
                   onChange={handleInput}
                   value={state.password}
                   placeholder="Enter password"
-                  className="input input-bordered input-error w-full "
+                  className="input input-bordered w-full "
                   required
                 />
                 <label className="label">

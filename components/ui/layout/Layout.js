@@ -31,10 +31,7 @@ function Layout({ children }) {
     <>
       <UserContext.Provider value={{ profile }}>
         <div className="container">
-          {/* <Navicheck /> */}
           <Navbar />
-          {/* <Hero /> */}
-
           <main>{children}</main>
           <div className="divider"></div>
           <Footer />

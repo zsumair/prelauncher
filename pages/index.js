@@ -6,15 +6,12 @@ import Hero from "@/components/ui/Hero/Hero";
 import Products from "@/components/Products";
 import Footer from "@/components/ui/Footer/Footer";
 import Layout from "@/components/ui/layout/Layout";
-import SlickHero from "@/components/ui/Hero/SlickHero";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
-import Login from "./login";
 import { UserContext } from "@/contexts/UserContext";
 import { useState, useEffect } from "react";
 import { create } from "zustand";
 import ProductCard from "@/components/ProductCard";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
-import InfiniteScroll from "react-infinite-scroll-component";
 import Pagination from "@/components/Pagination";
 
 export async function getServerSideProps(ctx) {
@@ -48,7 +45,6 @@ export default function Home({ data, count, page }) {
   useEffect(() => {
     if (!session?.user?.id) return;
     fetchUser();
-    // fetchProducts();
   }, [session?.user?.id]);
 
   async function fetchUser() {
@@ -61,10 +57,6 @@ export default function Home({ data, count, page }) {
       });
   }
 
-  // if (!session) {
-  //   return <Login />;
-  // }
-
   return (
     <>
       <Head>
@@ -75,8 +67,6 @@ export default function Home({ data, count, page }) {
       </Head>
       <Layout>
         <UserContext.Provider value={{ profile }}>
-          {/* <SlickHero /> */}
-
           <Products>
             {currentPosts &&
               currentPosts?.map((product) => (

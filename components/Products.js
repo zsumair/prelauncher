@@ -68,12 +68,19 @@ function Products({ children }) {
     <>
       <section className="py-10 md:py-16">
         <div className="container">
-          <div className="text-center bg-slate-300 backdrop-filter backdrop-blur-lg bg-opacity-5 sticky top-16 z-20">
-            <h2 className="text-lg sm:text-5xl font-bold mb-4 py-2">
+          <div className="text-center">
+            {/* <h2 className="text-lg sm:text-5xl font-bold mb-4 py-2">
               What We Do
+            </h2> */}
+            <h2 className="tracking-wide text-pink-600 text-2xl mb-2 font-mono">
+              Find:
+              <span className="text-gray-800 font-bold tracking tracking-widest">
+                Your next favorite products before everyone
+              </span>
             </h2>
             <p className="text-md sm:text-2xl mb-6 md:mb-14 py-2">
-              Save time managing advertising & Content for your business.
+              Bridging the gap between Makers and Users with early access and
+              early feedback.
             </p>
           </div>
 

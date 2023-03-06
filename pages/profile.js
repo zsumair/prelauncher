@@ -1,21 +1,106 @@
 import Layout from "@/components/ui/layout/Layout";
 import { UserContext } from "@/contexts/UserContext";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 function Profile() {
   const supabase = useSupabaseClient();
   const session = useSession();
-  const router = useRouter("/login");
-  const [profile, setProfile] = useState(null);
+  const [name, setName] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [avatarImage, setAvatarImage] = useState(null);
+  const [imageURL, setImageURL] = useState(null);
+  const fileInputRef = useRef();
 
   useEffect(() => {
-    // if (!session?.user?.id) {
-    //   router.push("/login");
-    // }
     fetchUser();
   }, [session?.user?.id]);
+
+  const handleInput = (e) => {
+    const value = e.target.value;
+    setName({
+      [e.target.name]: value,
+    });
+  };
+
+  const handleImagePreview = (e) => {
+    setError(null);
+    setLoading(true);
+    let file = e.target.files[0];
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", "prelauncher_avatar");
+    fetch("https://api.cloudinary.com/v1_1/syedzoheb/image/upload", {
+      method: "post",
+      body: data,
+    })
+      .then((resp) => resp.json())
+      .then((data) => {
+        console.log("data", data);
+        setLoading(false);
+        setAvatarImage(data?.secure_url);
+        fileInputRef.current.value = null;
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+        toast.error(" Oops, error updating avatar ", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        fileInputRef.current.value = null;
+      });
+  };
+
+  async function updateUser() {
+    setSuccess(true);
+    await supabase
+      .from("profiles")
+      .update({
+        name,
+        avatar: avatarImage,
+      })
+      .eq("id", session?.user?.id)
+      .then((res) => {
+        console.log("res", res);
+        if (res.error) {
+          setSuccess(false);
+          toast.error(" Oops, error updating profile, try again ", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          return;
+        }
+        // setName(res.)
+        setSuccess(false);
+        toast.success("Your profile is updated  ", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      });
+  }
 
   async function fetchUser() {
     try {
@@ -25,7 +110,9 @@ function Profile() {
           .select()
           .eq("id", session?.user?.id)
           .then((res) => {
-            setProfile(res?.data[0]);
+            setName(res?.data[0]?.name);
+            setAvatarImage(res?.data[0]?.avatar);
+            // setProfile(res?.data[0]);
           });
       }
     } catch (error) {
@@ -45,16 +132,32 @@ function Profile() {
                 <div className="divider"></div>
                 <div className="md:flex block">
                   <div className="avatar md:pb-0 pb-4">
-                    <div className="w-24 rounded-full">
-                      <img src="https://images.unsplash.com/photo-1460353581641-37baddab0fa2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fHNob2VzfGVufDB8fDB8fA%3D%3D&w=1000&q=80" />
+                    <div className="w-24 rounded-full relative">
+                      {/* <div className="badge badge-md "></div> */}
+                      {loading ? (
+                        <button className="btn btn-ghost btn-lg absolute top-6 left-6 loading"></button>
+                      ) : (
+                        ""
+                      )}
+                      <img
+                        className={loading ? "opacity-5" : ""}
+                        src={
+                          avatarImage
+                            ? avatarImage
+                            : "https://cdn.pixabay.com/photo/2017/09/13/11/12/emoji-2745224_960_720.png"
+                        }
+                      />
                     </div>
                   </div>
-                  <div className="md:ml-4 md:pl-4">
+                  <div className="form-control md:ml-4 md:pl-4">
                     <p className="pb-4">
                       Upload a avatar to use for your profile
                     </p>
                     <input
                       type="file"
+                      accept="image/*"
+                      ref={fileInputRef}
+                      onChange={handleImagePreview}
                       className="file-input md:w-full md:file-input-md file-input-sm  max-w-xs"
                     />
                   </div>
@@ -63,6 +166,7 @@ function Profile() {
               <div className="mb-4">
                 <h2 className="text-lg">Profile</h2>
                 <div className="divider"></div>
+
                 <div className="form-control w-full max-w-xs">
                   <label className="label">
                     <span className="label-text">Your name</span>
@@ -70,7 +174,10 @@ function Profile() {
                   <input
                     type="text"
                     placeholder="Type here"
+                    value={name}
+                    onChange={handleInput}
                     className="input input-bordered w-full max-w-xs"
+                    required
                   />
                   <label className="label">
                     <span className="label-text-alt">Name is Required</span>
@@ -79,7 +186,12 @@ function Profile() {
               </div>
 
               <div className="card-actions">
-                <button className="btn btn-primary">Update</button>
+                <button
+                  className={success ? "btn loading" : "btn"}
+                  onClick={updateUser}
+                >
+                  Update
+                </button>
               </div>
             </div>
           </div>

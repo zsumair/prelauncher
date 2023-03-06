@@ -68,7 +68,7 @@ function Navbar() {
                 <Link href="/profile">Profile</Link>
               </li>
               <li tabIndex={0}>
-                <Link href="/submitapp">SubmitApp</Link>
+                <Link href="/submitapp">Submit your App</Link>
               </li>
               <li>{/* <Link>Item 3</Link> */}</li>
             </ul>
@@ -87,12 +87,20 @@ function Navbar() {
           </div>
         ) : (
           <div className="navbar-end">
-            <button
-              onClick={goToLogin}
-              className="btn btn-xs sm:btn-sm md:btn-md lg:btn-md"
-            >
-              Get started
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={goToLogin}
+                className="btn btn-outline btn-xs sm:btn-sm md:btn-sm lg:btn-sm"
+              >
+                Submit your App
+              </button>
+              <button
+                onClick={goToLogin}
+                className="btn btn-outline btn-xs sm:btn-sm md:btn-sm lg:btn-sm"
+              >
+                login
+              </button>
+            </div>
           </div>
         )}
       </div>

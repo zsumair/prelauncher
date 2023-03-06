@@ -3,6 +3,7 @@ import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import { useState } from "react";
 import { ToastContainer } from "react-toastify";
+import NextNProgress from "nextjs-progressbar";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function App({ Component, pageProps }) {
@@ -12,6 +13,7 @@ export default function App({ Component, pageProps }) {
       supabaseClient={supabaseClient}
       initialSession={pageProps.initialSession}
     >
+      <NextNProgress color="#0D2237" />
       <Component {...pageProps} />
       <ToastContainer />
     </SessionContextProvider>

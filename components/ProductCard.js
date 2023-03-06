@@ -79,7 +79,7 @@ function ProductCard({ product }) {
                 </span>
                 <button
                   className={
-                    "btn btn-square btn-outline " +
+                    "btn btn-square btn-outline transition-all " +
                     (isVotedByMe ? "bg-current" : "")
                   }
                   onClick={toggleVote}
@@ -105,7 +105,7 @@ function ProductCard({ product }) {
                 </button>
               </div>
             </div>
-            <div className="card-actions md:justify-end md:py-0 py-4">
+            <div className="card-actions md:justify-end md:py-0 py-4 transition-all hover:scale-125">
               <Link
                 href={"/category/" + product?.category}
                 className="badge badge-sm badge-outline"
@@ -123,7 +123,7 @@ function ProductCard({ product }) {
             </div>
             <div className="card-actions md:justify-end md:py-0 py-4">
               {/* <div className="badge badge-outline">Fashion</div> */}
-              <div>
+              <div className="transition hover:-rotate-12">
                 <Link
                   href={product?.product_url}
                   className="btn btn-square btn-sm btn-outline"
