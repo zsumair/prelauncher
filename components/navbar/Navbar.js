@@ -44,10 +44,15 @@ function Navbar() {
                 className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 z-100"
               >
                 <li>
-                  <Link href="/profile">Profile</Link>
+                  <Link className="dark:text-zinc-300" href="/profile">
+                    Profile
+                  </Link>
                 </li>
                 <li tabIndex={0}>
-                  <Link href="/submitapp" className="justify-between">
+                  <Link
+                    href="/submitapp"
+                    className="justify-between dark:text-zinc-300"
+                  >
                     SubmitApp
                   </Link>
                 </li>
@@ -56,19 +61,26 @@ function Navbar() {
             </div>
           )}
 
-          <Link href="/" className="btn btn-ghost normal-case text-xl">
+          <Link
+            href="/"
+            className="btn btn-ghost normal-case text-xl dark:text-zinc-100"
+          >
             Prelaunchers
           </Link>
         </div>
 
         {session?.user?.id && (
           <div className="navbar-center hidden lg:flex">
-            <ul className="menu menu-horizontal px-1">
+            <ul className="menu menu-horizontal px-1 ">
               <li>
-                <Link href="/profile">Profile</Link>
+                <Link className="dark:text-zinc-300" href="/profile">
+                  Profile
+                </Link>
               </li>
               <li tabIndex={0}>
-                <Link href="/submitapp">Submit your App</Link>
+                <Link className="dark:text-zinc-300" href="/submitapp">
+                  Submit your App
+                </Link>
               </li>
               <li>{/* <Link>Item 3</Link> */}</li>
             </ul>
@@ -80,7 +92,7 @@ function Navbar() {
             <button
               onClick={logoutFromAccount}
               // href="/login"
-              className="btn btn-xs sm:btn-sm md:btn-md lg:btn-md"
+              className="btn btn-xs sm:btn-sm md:btn-md lg:btn-md dark:bg-zinc-100 dark:hover:bg-zinc-100 dark:text-black"
             >
               Logout
             </button>
@@ -90,13 +102,13 @@ function Navbar() {
             <div className="flex gap-2">
               <button
                 onClick={goToLogin}
-                className="btn btn-outline btn-xs sm:btn-sm md:btn-sm lg:btn-sm"
+                className="btn btn-outline btn-xs sm:btn-sm md:btn-sm lg:btn-sm dark:text-zinc-300"
               >
                 Submit your App
               </button>
               <button
                 onClick={goToLogin}
-                className="btn btn-outline btn-xs sm:btn-sm md:btn-sm lg:btn-sm"
+                className="btn btn-outline btn-xs sm:btn-sm md:btn-sm lg:btn-sm dark:text-zinc-300"
               >
                 login
               </button>

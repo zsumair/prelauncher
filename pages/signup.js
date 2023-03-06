@@ -157,7 +157,7 @@ function Signup() {
               </div>
 
               <div className="form-control pt-4">
-                <button className="btn gap-2">
+                <button className="btn gap-2 dark:bg-zinc-100 dark:hover:bg-zinc-100 dark:text-black">
                   Signup
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -177,7 +177,7 @@ function Signup() {
               </div>
             </form>
             {success && (
-              <div className="alert alert-success shadow-lg">
+              <div className="alert alert-success shadow-lg  dark:text-zinc-300">
                 <div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -230,7 +230,7 @@ function Signup() {
               </div>
             )}
             {/* Error show en */}
-            <div className="text-center mt-2">
+            <div className="text-center mt-2 text-zinc-300">
               <span>
                 Already have an account?{" "}
                 <Link href="/login" className="link">

@@ -129,7 +129,11 @@ function Login() {
               </div>
 
               <div className="form-control pt-4">
-                <button className={`btn gap-2 ${loading ? "loading" : ""}`}>
+                <button
+                  className={`btn dark:bg-zinc-100 dark:hover:bg-zinc-100 dark:text-black gap-2 ${
+                    loading ? "loading" : ""
+                  }`}
+                >
                   Login
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -156,7 +160,7 @@ function Login() {
                 </div>
                 <div className="flex-none">
                   <button
-                    className="btn btn-sm btn-circle btn-outline"
+                    className="btn btn-sm btn-circle btn-outline dark:text-white dark:hover:bg-zinc-100"
                     onClick={() => setErrorMessage(null)}
                   >
                     <svg
@@ -178,7 +182,7 @@ function Login() {
               </div>
             )}
             {/* Error show en */}
-            <div className="text-center mt-2">
+            <div className="text-center mt-2 dark:text-zinc-200">
               <span>
                 Don't have an account yet?{" "}
                 <Link href="/signup" className="link">

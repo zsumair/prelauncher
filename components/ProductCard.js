@@ -13,7 +13,7 @@ function ProductCard({ product }) {
   const supabase = useSupabaseClient();
   const [votes, setVotes] = useState([]);
   const [playVoteSound] = useSound("/sounds/votesound.mp3", {
-    volume: 0.7,
+    volume: 0.2,
   });
 
   useEffect(() => {
@@ -75,8 +75,12 @@ function ProductCard({ product }) {
           />
         </figure>
         <div className="card-body">
-          <h2 className="card-title text-lg">{product?.product_name}</h2>
-          <p className="pb-2 text-sm">{product?.product_desc}</p>
+          <h2 className="card-title text-lg dark:text-gray-300">
+            {product?.product_name}
+          </h2>
+          <p className="pb-2 text-sm dark:text-zinc-300">
+            {product?.product_desc}
+          </p>
           <div className="mx-auto md:mx-0 md:flex justify-between gap-2 items-center py-2">
             <div className="card-actions justify-start">
               <div className="indicator">
@@ -85,8 +89,8 @@ function ProductCard({ product }) {
                 </span>
                 <button
                   className={
-                    "btn btn-square btn-outline transition-all " +
-                    (isVotedByMe ? "bg-current" : "")
+                    "btn btn-square btn-outline transition-all dark:hover:bg-zinc-300 " +
+                    (isVotedByMe ? "bg-current dark:bg-zinc-500" : "")
                   }
                   onClick={toggleVote}
                 >
@@ -114,7 +118,7 @@ function ProductCard({ product }) {
             <div className="card-actions md:justify-end md:py-0 py-4 transition-all hover:scale-125">
               <Link
                 href={"/category/" + product?.category}
-                className="badge badge-sm badge-outline"
+                className="badge badge-sm badge-outline dark:text-zinc-300"
               >
                 {product?.category}
               </Link>
@@ -125,14 +129,16 @@ function ProductCard({ product }) {
 
           <div className="mx-auto md:mx-0 md:flex justify-between gap-2 items-center py-2 ">
             <div className="card-actions justify-start">
-              <span className="text-sm">by : {product?.profiles?.name}</span>
+              <span className="text-sm dark:text-zinc-300">
+                by : {product?.profiles?.name}
+              </span>
             </div>
             <div className="card-actions md:justify-end md:py-0 py-4">
               {/* <div className="badge badge-outline">Fashion</div> */}
               <div className="transition hover:-rotate-12">
                 <Link
                   href={product?.product_url}
-                  className="btn btn-square btn-sm btn-outline"
+                  className="btn btn-square btn-sm btn-outline dark:hover:bg-zinc-100"
                   rel="noopener noreferrer"
                   target="_blank"
                 >

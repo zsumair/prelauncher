@@ -115,7 +115,9 @@ function SubmitApp() {
       <div className="py-12 md:py-24">
         <div className="card lg:card-side bg-base-100 shadow-xl flex">
           <div className="card-body">
-            <h2>Please submit your app details below</h2>
+            <h2 className="dark:text-zinc-300">
+              Please submit your app details below
+            </h2>
 
             <form onSubmit={handleSubmitProduct}>
               <div className="form-control">
@@ -216,7 +218,7 @@ function SubmitApp() {
               </div>
 
               <div className="form-control pt-4">
-                <button className="btn gap-2">
+                <button className="btn gap-2 dark:bg-zinc-100 dark:hover:bg-zinc-100 dark:text-black">
                   Submit Product
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -238,7 +240,7 @@ function SubmitApp() {
           </div>
           <div className="divider divider-horizontal"></div>
           <div className="md:w-1/2">
-            <h2 className="pb-4 text-center text-lg font-bold mb-5">
+            <h2 className="pb-4 text-center text-lg font-bold mb-5 dark:text-zinc-300">
               This is how your product / app will appear
             </h2>
             <div className="card bg-base-100">

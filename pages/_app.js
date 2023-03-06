@@ -13,7 +13,7 @@ export default function App({ Component, pageProps }) {
       supabaseClient={supabaseClient}
       initialSession={pageProps.initialSession}
     >
-      <NextNProgress color="#0D2237" />
+      <NextNProgress color="#EADDCD" startPosition={0.5} />
       <Component {...pageProps} />
       <ToastContainer />
     </SessionContextProvider>

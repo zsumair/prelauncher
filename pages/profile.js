@@ -22,9 +22,7 @@ function Profile() {
 
   const handleInput = (e) => {
     const value = e.target.value;
-    setName({
-      [e.target.name]: value,
-    });
+    setName(value);
   };
 
   const handleImagePreview = (e) => {
@@ -110,6 +108,7 @@ function Profile() {
           .select()
           .eq("id", session?.user?.id)
           .then((res) => {
+            // console.log("res", res);
             setName(res?.data[0]?.name);
             setAvatarImage(res?.data[0]?.avatar);
             // setProfile(res?.data[0]);
@@ -187,7 +186,11 @@ function Profile() {
 
               <div className="card-actions">
                 <button
-                  className={success ? "btn loading" : "btn"}
+                  className={
+                    success
+                      ? "btn dark:bg-zinc-100 dark:hover:bg-zinc-100 dark:text-black loading"
+                      : "btn dark:bg-zinc-100 dark:hover:bg-zinc-100 dark:text-black"
+                  }
                   onClick={updateUser}
                 >
                   Update

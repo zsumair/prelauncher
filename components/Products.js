@@ -74,11 +74,11 @@ function Products({ children }) {
             </h2> */}
             <h2 className="tracking-wide text-pink-600 text-2xl mb-2 font-mono">
               Find:
-              <span className="text-gray-800 font-bold tracking tracking-widest">
+              <span className="text-gray-800 font-bold tracking tracking-widest dark:text-zinc-300">
                 Your next favorite products before everyone
               </span>
             </h2>
-            <p className="text-md sm:text-2xl mb-6 md:mb-14 py-2">
+            <p className="text-md sm:text-2xl mb-6 md:mb-14 py-2 dark:text-zinc-300">
               Bridging the gap between Makers and Users with early access and
               early feedback.
             </p>
