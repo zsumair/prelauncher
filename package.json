@@ -15,14 +15,14 @@
     "daisyui": "^2.51.2",
     "eslint": "8.35.0",
     "eslint-config-next": "13.2.2",
+    "framer-motion": "^10.1.0",
     "next": "13.2.2",
     "nextjs-progressbar": "^0.0.16",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-infinite-scroll-component": "^6.1.0",
     "react-toastify": "^9.1.1",
-    "use-sound": "^4.0.1",
-    "zustand": "^4.3.5"
+    "use-sound": "^4.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",

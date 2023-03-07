@@ -9,7 +9,6 @@ import Layout from "@/components/ui/layout/Layout";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { UserContext } from "@/contexts/UserContext";
 import { useState, useEffect } from "react";
-import { create } from "zustand";
 import ProductCard from "@/components/ProductCard";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import Pagination from "@/components/Pagination";

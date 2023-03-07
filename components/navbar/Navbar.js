@@ -10,7 +10,8 @@ function Navbar() {
 
   async function logoutFromAccount() {
     await supabase.auth.signOut();
-    router.reload();
+    router.push("/");
+    // router.reload();
   }
 
   function goToLogin() {
@@ -53,7 +54,7 @@ function Navbar() {
                     href="/submitapp"
                     className="justify-between dark:text-zinc-300"
                   >
-                    SubmitApp
+                    Submit App
                   </Link>
                 </li>
                 <li>{/* <Link>Item 3</Link> */}</li>
@@ -104,7 +105,7 @@ function Navbar() {
                 onClick={goToLogin}
                 className="btn btn-outline btn-xs sm:btn-sm md:btn-sm lg:btn-sm dark:text-zinc-300"
               >
-                Submit your App
+                Submit App
               </button>
               <button
                 onClick={goToLogin}

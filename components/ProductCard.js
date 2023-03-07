@@ -74,22 +74,22 @@ function ProductCard({ product }) {
             className="aspect-video object-cover"
           />
         </figure>
-        <div className="card-body">
+        <div className="card-body py-3 px-4">
           <h2 className="card-title text-lg dark:text-gray-300">
             {product?.product_name}
           </h2>
           <p className="pb-2 text-sm dark:text-zinc-300">
             {product?.product_desc}
           </p>
-          <div className="mx-auto md:mx-0 md:flex justify-between gap-2 items-center py-2">
+          <div className="mx-auto md:mx-0 flex justify-between gap-2 items-center py-2">
             <div className="card-actions justify-start">
               <div className="indicator">
-                <span className="indicator-item badge badge-secondary">
+                <span className="indicator-item badge badge-sm badge-secondary">
                   {votes?.length}
                 </span>
                 <button
                   className={
-                    "btn btn-square btn-outline transition-all dark:hover:bg-zinc-300 " +
+                    "btn btn-sm btn-square btn-outline transition-all dark:hover:bg-zinc-300 " +
                     (isVotedByMe ? "bg-current dark:bg-zinc-500" : "")
                   }
                   onClick={toggleVote}
@@ -127,7 +127,7 @@ function ProductCard({ product }) {
 
           {/* Maker and URL */}
 
-          <div className="mx-auto md:mx-0 md:flex justify-between gap-2 items-center py-2 ">
+          <div className="mx-auto md:mx-0 flex justify-between gap-2 items-center py-2 ">
             <div className="card-actions justify-start">
               <span className="text-sm dark:text-zinc-300">
                 by : {product?.profiles?.name}

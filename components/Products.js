@@ -3,7 +3,7 @@ import Login from "@/pages/login";
 import { useSupabaseClient, useSession } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 import { useContext, useState, useEffect } from "react";
-import Cars from "./Cars";
+import { motion } from "framer-motion";
 import ProductCard from "./ProductCard";
 import Skeleton from "./ui/Skeleton/Skeleton";
 import Pagination from "./Pagination";
@@ -84,20 +84,29 @@ function Products({ children }) {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 lg:gap-8 xl:gap-10">
-            {loading && <Skeleton cards={6} />}
-            {currentPosts &&
-              currentPosts?.map((product) => (
-                <ProductCard key={product?.id} product={product} />
-              ))}
-            <Pagination
-              totalPosts={products?.length}
-              postsPerPage={postsPerPage}
-              setPostsPerPage={setPostsPerPage}
-            />
-            {/* {children} */}
-            {/* Main container below */}
-          </div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{
+              duration: 0.75,
+            }}
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 lg:gap-8 xl:gap-10">
+              {loading && <Skeleton cards={3} />}
+              {currentPosts &&
+                currentPosts?.map((product) => (
+                  <ProductCard key={product?.id} product={product} />
+                ))}
+              <Pagination
+                totalPosts={products?.length}
+                postsPerPage={postsPerPage}
+                setPostsPerPage={setPostsPerPage}
+              />
+              {/* {children} */}
+              {/* Main container below */}
+            </div>
+          </motion.div>
         </div>
       </section>
     </>
