@@ -1,9 +1,6 @@
-import { UserContext } from "@/contexts/UserContext";
-import Login from "@/pages/login";
 import { useSupabaseClient, useSession } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 import { useContext, useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import ProductCard from "./ProductCard";
 import Skeleton from "./ui/Skeleton/Skeleton";
 import Pagination from "./Pagination";
@@ -59,20 +56,14 @@ function Products({ children }) {
         setTotalSize(res?.count);
         setProducts(res?.data);
         setIsLoading(false);
-        // console.log("res products", res);
       });
   }
-
-  // console.log("currentposts", currentPosts);
 
   return (
     <>
       <section className="py-10 md:py-16">
         <div className="container">
           <div className="text-center">
-            {/* <h2 className="text-lg sm:text-5xl font-bold mb-4 py-2">
-              What We Do
-            </h2> */}
             <h2 className="tracking-wide text-pink-600 text-2xl mb-2 font-mono">
               Find:
               <span className="text-gray-800 font-bold tracking tracking-widest dark:text-zinc-300">
@@ -92,7 +83,6 @@ function Products({ children }) {
                 <ProductCard key={product?.id} product={product} />
               ))}
 
-            {/* {children} */}
             {/* Main container below */}
           </div>
           <Pagination
