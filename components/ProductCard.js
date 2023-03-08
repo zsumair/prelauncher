@@ -2,6 +2,7 @@ import { UserContext } from "@/contexts/UserContext";
 import Login from "@/pages/login";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import Skeleton from "./ui/Skeleton/Skeleton";
@@ -68,9 +69,11 @@ function ProductCard({ product }) {
     <>
       <div className="card bg-base-100 shadow-md transform-gpu transition-all duration-300 hover:-translate-y-2 hover:shadow-lg dark:shadow-gray-700 dark:hover:shadow-gray-600">
         <figure>
-          <img
+          <Image
             src={product?.product_image}
-            alt="Shoes"
+            alt={product?.product_name}
+            width={500}
+            height={500}
             className="aspect-video object-cover"
           />
         </figure>

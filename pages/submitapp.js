@@ -14,7 +14,7 @@ function SubmitApp() {
   };
 
   const [state, setState] = useState(initialState);
-  const [productCategory, setProductCategory] = useState("");
+  const [productCategory, setProductCategory] = useState("SaaS");
   const [error, setErrorMessage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [productImage, setProductImage] = useState(null);
@@ -30,6 +30,8 @@ function SubmitApp() {
   //     router.push("/login");
   //   }
   // }, [session?.user?.id]);
+
+  console.log("product category", productCategory);
 
   const handleCategory = (e) => {
     setProductCategory(e.target.value);
@@ -148,14 +150,23 @@ function SubmitApp() {
                   onChange={handleCategory}
                   className="select select-bordered"
                 >
-                  <option disabled defaultValue={"Pick one"}>
-                    Pick one
-                  </option>
+                  <option disabled>Select a Category</option>
+                  <option defaultValue="SaaS">SaaS</option>
                   <option value="Health & Fitness">Health & Fitness</option>
-                  <option value="SaaS">SaaS</option>
                   <option value="Productivity">Productivity</option>
                   <option value="Developer Tools">Developer Tools</option>
                   <option value="Social Media">Social Media</option>
+                  <option value="Analytics">Analytics</option>
+                  <option value="Education">Education</option>
+                  <option value="E-Commerce">E-Commerce</option>
+                  <option value="AI">AI</option>
+                  <option value="No Code">No Code</option>
+                  <option value="Finance">Finance</option>
+                  <option value="UX/UI">UX/UI</option>
+                  <option value="Internet">Internet</option>
+                  <option value="Entertainment">Entertainment</option>
+                  <option value="Automation">Automation</option>
+                  <option value="Mobile">Mobile</option>
                   <option value="Sales & Marketing">Sales & Marketing</option>
                 </select>
               </div>
@@ -201,14 +212,14 @@ function SubmitApp() {
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Product Description</span>
-                  <span className="label-text-alt">max: 80 chars</span>
+                  <span className="label-text-alt">max: 125 chars</span>
                 </label>
                 <textarea
-                  placeholder="Describe product in 80 chars"
+                  placeholder="Describe product in 125 chars"
                   name="productDesc"
                   onChange={handleInput}
                   value={state.productDesc}
-                  maxLength="80"
+                  maxLength="125"
                   className="textarea textarea-bordered leading-tight textarea-md w-full"
                 ></textarea>
 
@@ -300,7 +311,7 @@ function SubmitApp() {
                   <div className="card-actions md:justify-end md:py-0 py-4">
                     {/* <div className="badge badge-outline">Fashion</div> */}
                     <div className="badge badge-sm badge-outline">
-                      {productCategory ? productCategory : "Health & Fitness"}
+                      {productCategory ? productCategory : "Select Category"}
                     </div>
                   </div>
                 </div>

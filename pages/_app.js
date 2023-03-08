@@ -24,7 +24,7 @@ export default function App({ Component, pageProps }) {
           animate="animateState"
           exit="exitState"
           transition={{
-            duration: 0.75,
+            duration: 0.5,
           }}
           variants={{
             initialState: {
@@ -33,7 +33,7 @@ export default function App({ Component, pageProps }) {
             animateState: {
               opacity: 1,
             },
-            exitState: {},
+            exitState: { opacity: 0 },
           }}
         >
           <Component {...pageProps} />

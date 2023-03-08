@@ -72,11 +72,6 @@ export default function Home({ data, count, page }) {
                 <ProductCard key={product.id} product={product} />
               ))}
           </Products>
-          <Pagination
-            totalPosts={data.length}
-            postsPerPage={postsPerPage}
-            setPostsPerPage={setPostsPerPage}
-          />
         </UserContext.Provider>
       </Layout>
     </>

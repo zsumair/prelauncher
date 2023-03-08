@@ -53,7 +53,8 @@ function Products({ children }) {
     await supabase
       .from("products")
       .select("*,profiles(id, name, avatar)", { count: "exact" })
-      // .is("approved", false)
+      .is("approved", true)
+      .order("created_at", { ascending: false })
       .then((res) => {
         setTotalSize(res?.count);
         setProducts(res?.data);
@@ -84,29 +85,21 @@ function Products({ children }) {
             </p>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{
-              duration: 0.75,
-            }}
-          >
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 lg:gap-8 xl:gap-10">
-              {loading && <Skeleton cards={3} />}
-              {currentPosts &&
-                currentPosts?.map((product) => (
-                  <ProductCard key={product?.id} product={product} />
-                ))}
-              <Pagination
-                totalPosts={products?.length}
-                postsPerPage={postsPerPage}
-                setPostsPerPage={setPostsPerPage}
-              />
-              {/* {children} */}
-              {/* Main container below */}
-            </div>
-          </motion.div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 lg:gap-8 xl:gap-10">
+            {loading && <Skeleton cards={3} />}
+            {currentPosts &&
+              currentPosts?.map((product) => (
+                <ProductCard key={product?.id} product={product} />
+              ))}
+
+            {/* {children} */}
+            {/* Main container below */}
+          </div>
+          <Pagination
+            totalPosts={products?.length}
+            postsPerPage={postsPerPage}
+            setPostsPerPage={setPostsPerPage}
+          />
         </div>
       </section>
     </>
