@@ -54,8 +54,14 @@ export default function Home({ data, count, page }) {
     <>
       <Head>
         <title>Prelaunchers</title>
-        <meta name="description" content="prelaunchers app" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          name="description"
+          content="Discover your next favorite app, new apps to watch, product launch, early adopters, join the waitlist"
+        />
+        <meta
+          name="keywords"
+          content="Product launch, validate idea, prelaunch product, new products, app launch"
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
