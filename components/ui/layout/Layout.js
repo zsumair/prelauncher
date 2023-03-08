@@ -2,7 +2,6 @@ import Navbar from "@/components/navbar/Navbar";
 import Navicheck from "@/components/navbar/Navicheck";
 import Footer from "../Footer/Footer";
 import Hero from "../Hero/Hero";
-import SlickHero from "../Hero/SlickHero";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { UserContext } from "@/contexts/UserContext";
 import { useState, useEffect } from "react";
