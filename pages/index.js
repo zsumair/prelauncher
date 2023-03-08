@@ -1,17 +1,11 @@
 import Head from "next/head";
-import Image from "next/image";
-import Navbar from "@/components/navbar/Navbar";
-import Drawer from "@/components/ui/drawer/drawer";
-import Hero from "@/components/ui/Hero/Hero";
 import Products from "@/components/Products";
-import Footer from "@/components/ui/Footer/Footer";
 import Layout from "@/components/ui/layout/Layout";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { UserContext } from "@/contexts/UserContext";
 import { useState, useEffect } from "react";
 import ProductCard from "@/components/ProductCard";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
-import Pagination from "@/components/Pagination";
 
 export async function getServerSideProps(ctx) {
   const supabase = createServerSupabaseClient(ctx);
