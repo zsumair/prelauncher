@@ -2,6 +2,7 @@ import Head from "next/head";
 import Products from "@/components/Products";
 import Layout from "@/components/ui/layout/Layout";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+import Script from "next/script";
 import { UserContext } from "@/contexts/UserContext";
 import { useState, useEffect } from "react";
 import ProductCard from "@/components/ProductCard";
@@ -63,6 +64,12 @@ export default function Home({ data, count, page }) {
           content="Product launch, validate idea, prelaunch product, new products, app launch"
         />
         <link rel="icon" href="/favicon.ico" />
+        <Script
+          async
+          defer
+          data-website-id="3f511865-670d-444b-82a5-7824511929a8"
+          src="https://umami-syedapps.up.railway.app/umami.js"
+        />
       </Head>
       <Layout>
         <UserContext.Provider value={{ profile }}>
