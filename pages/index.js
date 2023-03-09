@@ -28,8 +28,6 @@ export default function Home({ data, count, page }) {
   const supabase = useSupabaseClient();
   const session = useSession();
   const [profile, setProfile] = useState(null);
-  const [totalSize, setTotalSize] = useState(null);
-  const [products, setProducts] = useState([]);
   const [postsPerPage, setPostsPerPage] = useState(9);
 
   const lastPostIndex = postsPerPage;
@@ -73,12 +71,13 @@ export default function Home({ data, count, page }) {
       </Head>
       <Layout>
         <UserContext.Provider value={{ profile }}>
-          <Products>
+          <Products />
+          {/* <Products>
             {currentPosts &&
               currentPosts?.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
-          </Products>
+          </Products> */}
         </UserContext.Provider>
       </Layout>
     </>

@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
+import ImageUploader from "@/lib/ImageUploader";
 
 function Profile() {
   const supabase = useSupabaseClient();
@@ -25,40 +26,30 @@ function Profile() {
     setName(value);
   };
 
-  const handleImagePreview = (e) => {
+  async function handleImagePreview(e) {
     setError(null);
     setLoading(true);
     let file = e.target.files[0];
-    const data = new FormData();
-    data.append("file", file);
-    data.append("upload_preset", "prelauncher_avatar");
-    fetch("https://api.cloudinary.com/v1_1/syedzoheb/image/upload", {
-      method: "post",
-      body: data,
-    })
-      .then((resp) => resp.json())
-      .then((data) => {
-        console.log("data", data);
-        setLoading(false);
-        setAvatarImage(data?.secure_url);
-        fileInputRef.current.value = null;
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-        toast.error(" Oops, error updating avatar ", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        fileInputRef.current.value = null;
+    let data = await ImageUploader(file, "prelauncher_avatar");
+    if (data) {
+      setLoading(false);
+      setAvatarImage(data?.secure_url);
+      fileInputRef.current.value = null;
+    } else {
+      setLoading(false);
+      toast.error(" Oops, error updating avatar ", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
       });
-  };
+      fileInputRef.current.value = null;
+    }
+  }
 
   async function updateUser() {
     setSuccess(true);

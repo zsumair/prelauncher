@@ -5,6 +5,8 @@ import Image from "next/image";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
+import { Categories } from "@/lib/categories";
+import ImageUploader from "@/lib/ImageUploader";
 
 function SubmitApp() {
   let initialState = {
@@ -25,14 +27,6 @@ function SubmitApp() {
   const session = useSession();
   const router = useRouter();
 
-  // useEffect(() => {
-  //   if (!session?.user?.id) {
-  //     router.push("/login");
-  //   }
-  // }, [session?.user?.id]);
-
-  console.log("product category", productCategory);
-
   const handleCategory = (e) => {
     setProductCategory(e.target.value);
   };
@@ -45,31 +39,20 @@ function SubmitApp() {
     });
   };
 
-  // console.log("session", session?.user?.user_metadata?.full_name);
-
-  const handleImagePreview = (e) => {
+  async function handleImagePreview(e) {
     setErrorMessage(null);
     let file = e.target.files[0];
     setProductImage(URL.createObjectURL(file));
-    const data = new FormData();
-    data.append("file", file);
-    data.append("upload_preset", "prelauncher_images");
-    fetch("https://api.cloudinary.com/v1_1/syedzoheb/image/upload", {
-      method: "post",
-      body: data,
-    })
-      .then((resp) => resp.json())
-      .then((data) => {
-        setImageURL(data?.secure_url);
-        setImageSubmitted(true);
-        // e.target.value = null;
-      })
-      .catch((err) => {
-        console.log(err);
-        setErrorMessage("Error: Image is not uploaded, try again");
-        setImageSubmitted(false);
-      });
-  };
+    let data = await ImageUploader(file, "prelauncher_images");
+    if (data) {
+      setImageURL(data?.secure_url);
+      setImageSubmitted(true);
+    } else {
+      console.log(err);
+      setErrorMessage("Error: Image is not uploaded, try again");
+      setImageSubmitted(false);
+    }
+  }
 
   const handleSubmitProduct = async (e) => {
     e.preventDefault();
@@ -150,24 +133,11 @@ function SubmitApp() {
                   onChange={handleCategory}
                   className="select select-bordered"
                 >
-                  <option disabled>Select a Category</option>
-                  <option defaultValue="SaaS">SaaS</option>
-                  <option value="Health & Fitness">Health & Fitness</option>
-                  <option value="Productivity">Productivity</option>
-                  <option value="Developer Tools">Developer Tools</option>
-                  <option value="Social Media">Social Media</option>
-                  <option value="Analytics">Analytics</option>
-                  <option value="Education">Education</option>
-                  <option value="E-Commerce">E-Commerce</option>
-                  <option value="AI">AI</option>
-                  <option value="No Code">No Code</option>
-                  <option value="Finance">Finance</option>
-                  <option value="UX/UI">UX/UI</option>
-                  <option value="Internet">Internet</option>
-                  <option value="Entertainment">Entertainment</option>
-                  <option value="Automation">Automation</option>
-                  <option value="Mobile">Mobile</option>
-                  <option value="Sales & Marketing">Sales & Marketing</option>
+                  {Categories.map((category) => (
+                    <option key={category.value} value={category.value}>
+                      {category.item}
+                    </option>
+                  ))}
                 </select>
               </div>
 

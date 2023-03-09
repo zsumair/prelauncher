@@ -7,10 +7,7 @@ import Pagination from "./Pagination";
 
 function Products({ children }) {
   const supabase = useSupabaseClient();
-  const session = useSession();
   const router = useRouter();
-  const [profile, setProfile] = useState(null);
-  const [totalSize, setTotalSize] = useState(null);
   const [products, setProducts] = useState([]);
   const [loading, setIsLoading] = useState(false);
   const [postsPerPage, setPostsPerPage] = useState(9);
@@ -36,9 +33,8 @@ function Products({ children }) {
       .from("products")
       .select("*,profiles(id, name, avatar)", { count: "exact" })
       .eq("category", category[0])
-      // .is("approved", false)
+      .is("approved", true)
       .then((res) => {
-        setTotalSize(res?.count);
         setProducts(res?.data);
         setIsLoading(false);
       });
@@ -53,7 +49,6 @@ function Products({ children }) {
       .is("approved", true)
       .order("created_at", { ascending: false })
       .then((res) => {
-        setTotalSize(res?.count);
         setProducts(res?.data);
         setIsLoading(false);
       });
