@@ -208,8 +208,7 @@ function Signup() {
                     />
                   </svg>
                   <span className="text-black">
-                    Please confirm signup by clicking the link sent to your
-                    email and login
+                    Congrats!, You can log in to your account now
                   </span>
                 </div>
               </div>
