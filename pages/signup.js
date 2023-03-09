@@ -160,7 +160,9 @@ function Signup() {
                   required
                 />
                 <label className="label">
-                  <span className="label-text-alt">This field is required</span>
+                  <span className="label-text-alt">
+                    Password should be atleast 6 characters long{" "}
+                  </span>
                 </label>
               </div>
 
