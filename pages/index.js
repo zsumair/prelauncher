@@ -70,6 +70,12 @@ export default function Home({ data, count, page }) {
           data-website-id="3f511865-670d-444b-82a5-7824511929a8"
           src="https://umami-syedapps.up.railway.app/umami.js"
         />
+        <script
+          async
+          defer
+          data-website-id="3f511865-670d-444b-82a5-7824511929a8"
+          src="https://umami-syedapps.up.railway.app/umami.js"
+        ></script>
       </Head>
       <Layout>
         <UserContext.Provider value={{ profile }}>
