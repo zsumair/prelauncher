@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
-import ImageUploader from "@/lib/ImageUploader";
+import ImageUploader from "@/components/utils/ImageUploader";
 
 function Profile() {
   const supabase = useSupabaseClient();

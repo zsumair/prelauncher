@@ -4,8 +4,8 @@ import Layout from "@/components/ui/layout/Layout";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
-import Categories from "@/lib/categories";
-import ImageUploader from "@/lib/ImageUploader";
+import { Categories } from "@/components/utils/Categories";
+import ImageUploader from "@/components/utils/ImageUploader";
 
 function SubmitApp() {
   let initialState = {
