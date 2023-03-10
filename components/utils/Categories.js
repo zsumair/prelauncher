@@ -1,4 +1,4 @@
-const Categories = [
+export const categories = [
   {
     item: "SaaS",
     value: "SaaS",
@@ -64,5 +64,3 @@ const Categories = [
     value: "Internet",
   },
 ];
-
-export default Categories;

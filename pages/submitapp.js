@@ -4,7 +4,7 @@ import Layout from "@/components/ui/layout/Layout";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
-import { Categories } from "@/components/utils/Categories";
+import { categories } from "@/components/utils/Categories";
 import ImageUploader from "@/components/utils/ImageUploader";
 
 function SubmitApp() {
@@ -132,7 +132,7 @@ function SubmitApp() {
                   onChange={handleCategory}
                   className="select select-bordered"
                 >
-                  {Categories.map((category) => (
+                  {categories?.map((category) => (
                     <option key={category.value} value={category.value}>
                       {category.item}
                     </option>
