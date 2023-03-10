@@ -1,11 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Layout from "@/components/ui/layout/Layout";
-import Image from "next/image";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
-import { Categories } from "@/lib/categories";
+import Categories from "@/lib/categories";
 import ImageUploader from "@/lib/ImageUploader";
 
 function SubmitApp() {
