@@ -7,7 +7,7 @@ function Hero() {
         <div className="hero-content">
           <div className="max-w-md">
             <h1 className="tracking-wide text-pink-600 text-2xl mb-6 font-mono">
-              Find:
+              Find:ll
               <span className="text-gray-800 dark:text-gray-400 font-bold tracking tracking-widest">
                 Your next favorite products before everyone
               </span>

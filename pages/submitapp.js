@@ -160,7 +160,7 @@ function SubmitApp() {
 
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Product Image</span>
+                  <span className="label-text">Product logo</span>
                   <span className="label-text-alt">*Aspect Ratio(16 / 9)</span>
                 </label>
                 <input
@@ -219,86 +219,32 @@ function SubmitApp() {
             </form>
           </div>
           <div className="divider divider-horizontal"></div>
+          {/* Product preview */}
           <div className="md:w-1/2">
             <h2 className="pb-4 text-center text-lg font-bold mb-5 dark:text-zinc-300">
               This is how your product / app will appear
             </h2>
-            <div className="card bg-base-100">
-              <figure>
+
+            <div className="card lg:card-side md:card-size bg-base-100 px-8 shadow-md transform-gpu transition-all duration-300 hover:-translate-y-2 hover:shadow-lg dark:shadow-gray-700 dark:hover:shadow-gray-600">
+              <figure className="rounded-3xl p-3 ">
                 <img
                   src={
                     productImage
                       ? productImage
                       : "https://images.meesho.com/images/products/44009963/kxwus_512.jpg"
                   }
-                  alt="Shoes"
-                  className="aspect-video object-cover"
+                  alt="Movie"
+                  className="rounded-3xl p-3 w-32 h-[8rem] aspect-video object-cover"
                 />
               </figure>
-              <div className="card-body">
-                {state.productName ? (
-                  <h2 className="card-title text-lg">{state.productName} </h2>
-                ) : (
-                  <h2 className="card-title text-lg">Product Title</h2>
-                )}
-
-                {state.productDesc ? (
-                  <p className="pb-2 text-sm">{state.productDesc}</p>
-                ) : (
-                  <p className="pb-2 text-sm">
-                    "If a dog chews shoes whose shoes does he choose? If a dog
-                    chews shoes whose shoes does he choose? If a dog chews shoes
-                    whose shoes does he choose?"
-                  </p>
-                )}
-
-                <div className="mx-auto md:mx-0 md:flex justify-between gap-2 items-center py-2">
-                  <div className="card-actions justify-start">
-                    <div className="indicator">
-                      <span className="indicator-item badge badge-secondary">
-                        0
-                      </span>
-                      <button className={"btn btn-square btn-outline "}>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          className={
-                            "inline-block w-8 h-8 stroke-current fill-yellow-500 "
-                          }
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M13 10V3L4 14h7v7l9-11h-7z"
-                          ></path>
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-                  <div className="card-actions md:justify-end md:py-0 py-4">
-                    {/* <div className="badge badge-outline">Fashion</div> */}
-                    <div className="badge badge-sm badge-outline">
-                      {productCategory ? productCategory : "Select Category"}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Maker and URL */}
-
-                <div className="mx-auto md:mx-0 md:flex justify-between gap-2 items-center py-2 ">
-                  <div className="card-actions justify-start">
-                    <span className="text-sm">
-                      by : {session?.user?.user_metadata?.full_name}
-                    </span>
-                  </div>
-                  <div className="card-actions md:justify-end md:py-0 py-4">
-                    {/* <div className="badge badge-outline">Fashion</div> */}
-                    <div>
+              <div className="ml-2 card-body">
+                <div className="flex justify-between">
+                  {state.productName ? (
+                    <h2 className="card-title font-extrabold text-xl font-sans">
+                      {state.productName}
                       <Link
                         href={state.productURL ? state.productURL : "#"}
-                        className="btn btn-square btn-sm btn-outline"
+                        className="btn btn-square btn-xs btn-outline dark:hover:bg-zinc-100"
                         rel="noopener noreferrer"
                         target="_blank"
                       >
@@ -308,7 +254,7 @@ function SubmitApp() {
                           viewBox="0 0 24 24"
                           strokeWidth={1.5}
                           stroke="currentColor"
-                          className="w-6 h-6"
+                          className="w-4 h-4"
                         >
                           <path
                             strokeLinecap="round"
@@ -317,10 +263,53 @@ function SubmitApp() {
                           />
                         </svg>
                       </Link>
-                    </div>
+                    </h2>
+                  ) : (
+                    <h2 className="card-title text-lg">Product Title</h2>
+                  )}
+
+                  <div className="indicator">
+                    <button className="btn btn-sm btn-ghost outline-0 border-0  normal-case hover:bg-slate-100 text-black bg-gradient-to-r from-purple-500 via-red-500 to-yellow-500  transition-all">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="white"
+                        className="inline-block w-8 h-8"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M4.5 15.75l7.5-7.5 7.5 7.5"
+                        />
+                      </svg>
+                      <span className="px-1 font-semibold text-white">
+                        {" "}
+                        Upvote
+                      </span>
+                      <div className="badge badge-sm">1</div>
+                    </button>
                   </div>
                 </div>
-                {/* Maker and URL */}
+                {state.productDesc ? (
+                  <p className="text-gray-500 font-semibold text-sm">
+                    {state.productDesc}
+                  </p>
+                ) : (
+                  <p className="text-gray-500 font-semibold text-sm">
+                    Deliver the best experience to your visitors & turn them
+                    into customers.Build your website now!.
+                  </p>
+                )}
+                <div className="card-actions justify-end">
+                  <Link
+                    href={"#"}
+                    className="font-semibold capitalize text-sm bg-gray-100 rounded-3xl px-4 p-3 hover:underline dark:bg-gray-700"
+                  >
+                    {productCategory ? productCategory : "Select Category"}
+                  </Link>
+                </div>
               </div>
             </div>
           </div>

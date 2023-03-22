@@ -19,8 +19,8 @@ function Navbar() {
   }
 
   return (
-    <div className="sticky z-10 top-0 mb-2 border-base-800 shadow-sm ">
-      <div className="navbar bg-base-100">
+    <div className="sticky z-10 top-0 mb-2  ">
+      <div className="navbar bg-[#f5f5f5] dark:bg-inherit">
         <div className="navbar-start">
           {session?.user?.id && (
             <div className="dropdown">
@@ -103,15 +103,15 @@ function Navbar() {
             <div className="flex gap-2">
               <button
                 onClick={goToLogin}
-                className="btn btn-outline btn-xs sm:btn-sm md:btn-sm lg:btn-sm dark:text-zinc-300"
+                className="btn btn-ghost btn-xs sm:btn-sm md:btn-sm lg:btn-sm dark:text-zinc-300 normal-case hover:text-indigo-600 dark:hover:text-slate-300"
               >
-                Submit App
+                Login
               </button>
               <button
                 onClick={goToLogin}
-                className="btn btn-outline btn-xs sm:btn-sm md:btn-sm lg:btn-sm dark:text-zinc-300"
+                className="btn btn-ghost btn-xs sm:btn-sm md:btn-sm lg:btn-sm dark:text-zinc-300 normal-case hover:text-indigo-600 dark:hover:text-slate-300"
               >
-                login
+                Submit
               </button>
             </div>
           </div>
