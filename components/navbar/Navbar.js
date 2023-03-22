@@ -93,7 +93,7 @@ function Navbar() {
             <button
               onClick={logoutFromAccount}
               // href="/login"
-              className="btn btn-xs sm:btn-sm md:btn-md lg:btn-md dark:bg-zinc-100 dark:hover:bg-zinc-100 dark:text-black"
+              className="btn btn-ghost btn-xs sm:btn-sm md:btn-sm lg:btn-sm dark:text-zinc-300 normal-case hover:text-indigo-600 dark:hover:text-slate-300"
             >
               Logout
             </button>
