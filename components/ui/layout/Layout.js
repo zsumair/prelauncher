@@ -1,10 +1,13 @@
 import Navbar from "@/components/navbar/Navbar";
 import Navicheck from "@/components/navbar/Navicheck";
 import Footer from "../Footer/Footer";
+import { Inter } from "next/font/google";
 import Hero from "../Hero/Hero";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { UserContext } from "@/contexts/UserContext";
 import { useState, useEffect } from "react";
+
+const inter = Inter({ subsets: ["latin"] });
 
 function Layout({ children }) {
   const supabase = useSupabaseClient();
@@ -31,7 +34,7 @@ function Layout({ children }) {
       <UserContext.Provider value={{ profile }}>
         <div className="container">
           <Navbar />
-          <main>{children}</main>
+          <main className={inter.className}>{children}</main>
           <div className="divider"></div>
           <Footer />
         </div>

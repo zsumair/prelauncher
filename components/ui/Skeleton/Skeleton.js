@@ -4,7 +4,28 @@ function Skeleton({ cards }) {
   return Array(cards)
     .fill(0)
     .map((item, i) => (
-      <div
+      <>
+        <div
+          role="status"
+          className="border  shadow rounded-md p-4 max-w-2xl w-full mx-auto"
+          key={i}
+        >
+          <div className="animate-pulse flex space-x-4">
+            <div className="rounded-full bg-slate-700 h-10 w-10"></div>
+            <div className="flex-1 space-y-6 py-1">
+              <div className="h-2 bg-slate-700 rounded"></div>
+              <div className="space-y-3">
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="h-2 bg-slate-700 rounded col-span-2"></div>
+                  <div className="h-2 bg-slate-700 rounded col-span-1"></div>
+                </div>
+                <div className="h-2 bg-slate-700 rounded"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* <div
         role="status"
         className="max-w-sm p-4 border border-gray-200 rounded shadow animate-pulse md:p-6 dark:border-gray-700"
         key={i}
@@ -44,23 +65,8 @@ function Skeleton({ cards }) {
           </div>
         </div>
         <span className="sr-only">Loading...</span>
-      </div>
-
-      // <div classNameName="shadow-md rounded-md p-4 max-w-sm w-full mx-auto" key={i}>
-      //   <div classNameName="animate-pulse flex space-x-4">
-      //     <div classNameName="rounded-full bg-slate-700 h-10 w-10"></div>
-      //     <div classNameName="flex-1 space-y-6 py-1">
-      //       <div classNameName="h-2 bg-slate-700 rounded"></div>
-      //       <div classNameName="space-y-3">
-      //         <div classNameName="grid grid-cols-3 gap-4">
-      //           <div classNameName="h-2 bg-slate-700 rounded col-span-2"></div>
-      //           <div classNameName="h-2 bg-slate-700 rounded col-span-1"></div>
-      //         </div>
-      //         <div classNameName="h-2 bg-slate-700 rounded"></div>
-      //       </div>
-      //     </div>
-      //   </div>
-      // </div>
+      </div> */}
+      </>
     ));
 }
 
