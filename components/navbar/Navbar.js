@@ -74,13 +74,19 @@ function Navbar() {
           <div className="navbar-center hidden lg:flex">
             <ul className="menu menu-horizontal px-1 ">
               <li>
-                <Link className="dark:text-zinc-300" href="/profile">
+                <Link
+                  className="btn btn-ghost btn-xs sm:btn-sm md:btn-sm lg:btn-sm dark:text-zinc-300 normal-case hover:text-indigo-600 dark:hover:text-slate-300"
+                  href="/profile"
+                >
                   Profile
                 </Link>
               </li>
               <li tabIndex={0}>
-                <Link className="dark:text-zinc-300" href="/submitapp">
-                  Submit your App
+                <Link
+                  className="btn btn-ghost btn-xs sm:btn-sm md:btn-sm lg:btn-sm dark:text-zinc-300 normal-case hover:text-indigo-600 dark:hover:text-slate-300"
+                  href="/submitapp"
+                >
+                  Submit App
                 </Link>
               </li>
               <li>{/* <Link>Item 3</Link> */}</li>
