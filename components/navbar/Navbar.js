@@ -62,6 +62,7 @@ function Navbar() {
             </div>
           )}
 
+          {/* Big screen nav */}
           <Link
             href="/"
             className="btn btn-ghost normal-case text-xl dark:text-zinc-100"
@@ -75,7 +76,7 @@ function Navbar() {
             <ul className="menu menu-horizontal px-1 ">
               <li>
                 <Link
-                  className="btn btn-ghost btn-xs sm:btn-sm md:btn-sm lg:btn-sm dark:text-zinc-300 normal-case hover:text-indigo-600 dark:hover:text-slate-300"
+                  className="dark:text-zinc-300 normal-case hover:text-indigo-600 dark:hover:text-slate-300"
                   href="/profile"
                 >
                   Profile
@@ -83,7 +84,7 @@ function Navbar() {
               </li>
               <li tabIndex={0}>
                 <Link
-                  className="btn btn-ghost btn-xs sm:btn-sm md:btn-sm lg:btn-sm dark:text-zinc-300 normal-case hover:text-indigo-600 dark:hover:text-slate-300"
+                  className="dark:text-zinc-300 normal-case hover:text-indigo-600 dark:hover:text-slate-300"
                   href="/submitapp"
                 >
                   Submit App
