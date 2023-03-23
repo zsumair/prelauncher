@@ -220,7 +220,7 @@ function SubmitApp() {
           </div>
           <div className="divider divider-horizontal"></div>
           {/* Product preview */}
-          <div className="md:w-1/2">
+          <div className="md:w-1/2 self-center">
             <h2 className="pb-4 text-center text-lg font-bold mb-5 dark:text-zinc-300">
               This is how your product / app will appear
             </h2>
@@ -238,7 +238,7 @@ function SubmitApp() {
                 />
               </figure>
               <div className="ml-2 card-body">
-                <div className="flex justify-between">
+                <div className="block md:flex justify-between">
                   {state.productName ? (
                     <h2 className="card-title font-extrabold text-xl font-sans">
                       {state.productName}
@@ -302,7 +302,7 @@ function SubmitApp() {
                     into customers.Build your website now!.
                   </p>
                 )}
-                <div className="card-actions justify-end">
+                <div className="card-actions justify-start md:justify-end">
                   <Link
                     href={"#"}
                     className="font-semibold capitalize text-sm bg-gray-100 rounded-3xl px-4 p-3 hover:underline dark:bg-gray-700"
